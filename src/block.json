@@ -1,0 +1,51 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "simple-gmaps/block",
+	"version": "0.1.0",
+	"title": "Google Maps",
+	"category": "embed",
+	"icon": "smiley",
+	"description": "A Gutenberg block to embed your Google Maps on a quickly and efficient way.",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"latitude": {
+			"type": "string",
+			"default": ""
+		},
+		"longitude": {
+			"type": "string",
+			"default": ""
+		},
+		"zoomLevel": {
+			"type":"integer",
+			"default": 18
+		},
+		"allowFullScreen": {
+			"type": "boolean",
+			"default": false
+		},
+		"locationName": {
+			"type": "string",
+			"default": ""
+		},
+		"query": {
+			"type": "string",
+			"default": "Upper East Side"
+		},
+		"width": {
+			"type": "integer",
+			"default": 600
+		},
+		"height": {
+			"type":"integer",
+			"default": 450
+		}
+	},
+	"textdomain": "simple-gmaps",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}
