@@ -5,6 +5,8 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps } from '@wordpress/block-editor';
+import React, { useState } from 'react';
+
 
 /**
  * The save function defines the way in which the different attributes should
@@ -16,9 +18,8 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {WPElement} Element to render.
  */
 export default function save( props ) {
-
 	const { attributes } = props;
-	const { zoomLevel, query, width, height } = attributes;
+	const { zoomLevel, query, width, height, apiKey } = attributes;
 	const blockProps = useBlockProps.save();
 	return (
 		<div { ...blockProps }>
@@ -28,7 +29,7 @@ export default function save( props ) {
 				height={ height }
 				loading="lazy"
 				referrerpolicy="no-referrer-when-downgrade"
-				src={ `https://www.google.com/maps/embed/v1/place?key=AIzaSyBG1bG7xNR1ICq96E5QQfXT7bA8Hy_FF5Y&q=${ query }&zoom=${ zoomLevel }` }>
+				src={ `https://www.google.com/maps/embed/v1/place?key=${ apiKey }&q=${ query }&zoom=${ zoomLevel }` }>
 			</iframe>
 		</div>
 	);

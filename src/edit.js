@@ -14,8 +14,7 @@ import {
 	InspectorControls,
 } from '@wordpress/block-editor';
 import { useEffect } from '@wordpress/element';
-
-
+import apiFetch from '@wordpress/api-fetch';
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -34,7 +33,13 @@ import './editor.scss';
  */
 export default function Edit( props ) {
 	const { attributes, setAttributes } = props;
-	const { latitude, longitude, zoomLevel, locationName, width, height, query } = attributes;
+	const { latitude, longitude, zoomLevel, locationName, width, height, query, apiKey } = attributes;
+	useEffect(() => {
+		apiFetch( { path: 'simple-gmaps/v1/apikey' } ).then( ( apiKey ) => {
+			setAttributes( { apiKey: apiKey } );
+		});
+	 }, []);
+
 	useEffect( () => {
 		if ( locationName ) {
 			setAttributes( { query: locationName } );
@@ -81,15 +86,18 @@ export default function Edit( props ) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<div className="xwp-map-container">
+			<div className="simple-gmaps-container">
+			{apiKey &&
 				<iframe
 					width={ width }
 					title="g-map"
 					height={ height }
 					loading="lazy"
 					referrerpolicy="no-referrer-when-downgrade"
-					src={ `https://www.google.com/maps/embed/v1/place?key=AIzaSyBG1bG7xNR1ICq96E5QQfXT7bA8Hy_FF5Y&q=${ query }&zoom=${ zoomLevel }` }>
+					src={ `https://www.google.com/maps/embed/v1/place?key=${ apiKey }&q=${ query }&zoom=${ zoomLevel }` }>
 				</iframe>
+			}
+
 			</div>
 		</div>
 	);

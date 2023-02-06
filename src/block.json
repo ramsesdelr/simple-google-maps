@@ -42,6 +42,10 @@
 		"height": {
 			"type":"integer",
 			"default": 450
+		},
+		"apiKey": {
+			"type":"string",
+			"default": ""
 		}
 	},
 	"textdomain": "simple-gmaps",
