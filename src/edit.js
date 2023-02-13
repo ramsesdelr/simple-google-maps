@@ -78,7 +78,7 @@ export default function Edit( props ) {
 						onChange={ ( value ) => setAttributes( { height: value } ) }
 					/>
 					<RangeControl
-						label="Zoom Level"
+						label={__( 'Zoom Level', 'simple-gmaps' ) }
 						value={ zoomLevel }
 						onChange={ ( value ) => setAttributes( { zoomLevel: value } ) }
 						min={ 1 }
@@ -87,8 +87,8 @@ export default function Edit( props ) {
 				</PanelBody>
 			</InspectorControls>
 			<div className="simple-gmaps-container">
-			{apiKey &&
-				<iframe
+			{apiKey
+				? <iframe
 					width={ width }
 					title="g-map"
 					height={ height }
@@ -96,6 +96,7 @@ export default function Edit( props ) {
 					referrerpolicy="no-referrer-when-downgrade"
 					src={ `https://www.google.com/maps/embed/v1/place?key=${ apiKey }&q=${ query }&zoom=${ zoomLevel }` }>
 				</iframe>
+				: <div>You need to define a <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/get-api-key">Google Maps API Key</a> and add it <a href="/wp-admin/options-general.php?page=simplegmaps">here</a></div>
 			}
 
 			</div>

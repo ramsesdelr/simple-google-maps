@@ -7,10 +7,10 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-create-block-google-maps {
+.wp-block-simple-gmaps {
   background-color: #21759b;
   color: #fff;
-  padding: 2px;
+  padding: 1px;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

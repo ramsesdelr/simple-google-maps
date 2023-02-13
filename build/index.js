@@ -20,7 +20,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -60,8 +62,18 @@ function Edit(props) {
     locationName,
     width,
     height,
-    query
+    query,
+    apiKey
   } = attributes;
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
+      path: 'simple-gmaps/v1/apikey'
+    }).then(apiKey => {
+      setAttributes({
+        apiKey: apiKey
+      });
+    });
+  }, []);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (locationName) {
       setAttributes({
@@ -106,7 +118,7 @@ function Edit(props) {
       height: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.RangeControl, {
-    label: "Zoom Level",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Zoom Level', 'simple-gmaps'),
     value: zoomLevel,
     onChange: value => setAttributes({
       zoomLevel: value
@@ -114,15 +126,20 @@ function Edit(props) {
     min: 1,
     max: 22
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "xwp-map-container"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("iframe", {
+    className: "simple-gmaps-container"
+  }, apiKey ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("iframe", {
     width: width,
     title: "g-map",
     height: height,
     loading: "lazy",
     referrerpolicy: "no-referrer-when-downgrade",
-    src: `https://www.google.com/maps/embed/v1/place?key=AIzaSyBG1bG7xNR1ICq96E5QQfXT7bA8Hy_FF5Y&q=${query}&zoom=${zoomLevel}`
-  })));
+    src: `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${query}&zoom=${zoomLevel}`
+  }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "You need to define a ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    target: "_blank",
+    href: "https://developers.google.com/maps/documentation/javascript/get-api-key"
+  }, "Google Maps API Key"), " and add it ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "/wp-admin/options-general.php?page=simplegmaps"
+  }, "here"))));
 }
 
 /***/ }),
@@ -195,6 +212,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -202,6 +221,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 /**
@@ -221,7 +241,8 @@ function save(props) {
     zoomLevel,
     query,
     width,
-    height
+    height,
+    apiKey
   } = attributes;
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("iframe", {
@@ -230,7 +251,7 @@ function save(props) {
     height: height,
     loading: "lazy",
     referrerpolicy: "no-referrer-when-downgrade",
-    src: `https://www.google.com/maps/embed/v1/place?key=AIzaSyBG1bG7xNR1ICq96E5QQfXT7bA8Hy_FF5Y&q=${query}&zoom=${zoomLevel}`
+    src: `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${query}&zoom=${zoomLevel}`
   }));
 }
 
@@ -257,6 +278,26 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "react":
+/*!************************!*\
+  !*** external "React" ***!
+  \************************/
+/***/ ((module) => {
+
+module.exports = window["React"];
+
+/***/ }),
+
+/***/ "@wordpress/api-fetch":
+/*!**********************************!*\
+  !*** external ["wp","apiFetch"] ***!
+  \**********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["apiFetch"];
 
 /***/ }),
 
@@ -316,7 +357,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"simple-gmaps/block","version":"0.1.0","title":"Google Maps","category":"embed","icon":"smiley","description":"A Gutenberg block to embed your Google Maps on a quickly and efficient way.","supports":{"html":false},"attributes":{"latitude":{"type":"string","default":""},"longitude":{"type":"string","default":""},"zoomLevel":{"type":"integer","default":18},"allowFullScreen":{"type":"boolean","default":false},"locationName":{"type":"string","default":""},"query":{"type":"string","default":"Upper East Side"},"width":{"type":"integer","default":600},"height":{"type":"integer","default":450}},"textdomain":"simple-gmaps","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"simple-gmaps/block","version":"0.1.0","title":"Google Maps","category":"embed","icon":"smiley","description":"A Gutenberg block to embed your Google Maps on a quickly and efficient way.","supports":{"html":false},"attributes":{"latitude":{"type":"string","default":""},"longitude":{"type":"string","default":""},"zoomLevel":{"type":"integer","default":18},"allowFullScreen":{"type":"boolean","default":false},"locationName":{"type":"string","default":""},"query":{"type":"string","default":"Upper East Side"},"width":{"type":"integer","default":600},"height":{"type":"integer","default":450},"apiKey":{"type":"string","default":""}},"textdomain":"simple-gmaps","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 
